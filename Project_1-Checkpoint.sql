@@ -36,6 +36,8 @@ High Discount > 0.5  */
 WITH DiscountCTE AS (
     SELECT 
         DISCOUNT,
+		CATEGORY,
+		PROFIT,
         CASE 
             WHEN DISCOUNT = 0 THEN 'No Discount'
             WHEN DISCOUNT <= 0.2 THEN 'Low Discount'
@@ -43,8 +45,17 @@ WITH DiscountCTE AS (
             ELSE 'High Discount'
         END AS Discount_Level
     FROM 
-        Orders
+        Orders o
+	join PRODUCT p on o.PRODUCT_ID = p.ID
 )
+
+select CATEGORY,
+		Discount_Level,
+		COUNT(*) as Total_Orders,
+		SUM(PROFIT) as Total_Profit
+from DiscountCTE
+group by CATEGORY, Discount_Level
+order by CATEGORY, Discount_Level
 
 SELECT 
     p.CATEGORY,
@@ -64,6 +75,33 @@ ORDER BY
 
 
 
+WITH DiscountedSales AS (
+  SELECT
+    CATEGORY,
+    DISCOUNT,
+    PROFIT,
+    CASE 
+      WHEN DISCOUNT = 0 THEN 'No Discount'
+      WHEN DISCOUNT > 0 AND DISCOUNT <= 0.2 THEN 'Low Discount'
+      WHEN DISCOUNT > 0.2 AND DISCOUNT <= 0.5 THEN 'Medium Discount'
+      ELSE 'High Discount'
+    END AS Discount_Level
+  FROM
+    ORDERS o join CUSTOMERS c on o.CUSTOMER_ID = c.ID join PRODUCT p on p.ID = o.PRODUCT_ID
+)
+SELECT
+  CATEGORY,
+  Discount_Level,
+  COUNT(*) AS Total_Orders,
+  round(SUM(PROFIT),2) AS Total_Profit
+FROM
+  DiscountedSales
+GROUP BY
+  CATEGORY,
+  Discount_Level
+ORDER BY
+  CATEGORY,
+  Discount_Level;
 
 
 
