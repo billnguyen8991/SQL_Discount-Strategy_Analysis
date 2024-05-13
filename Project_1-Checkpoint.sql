@@ -3,24 +3,25 @@
 
 with yearCTE as (
 select ORDER_DATE,
-		case 
-		when DATEPART(Quarter, ORDER_DATE) = 1 THEN 'Q1-' + CAST(Year(ORDER_Date) as char(4))
-		when DATEPART(Quarter, ORDER_DATE) = 2 THEN 'Q2-' + CAST(Year(ORDER_Date) as char(4))
-		when DATEPART(Quarter, ORDER_DATE) = 3 THEN 'Q3-' + CAST(Year(ORDER_Date) as char(4))
-		when DATEPART(Quarter, ORDER_DATE) = 4 THEN 'Q4-' + CAST(Year(ORDER_Date) as char(4))
-		end as Quarter_Year
-from Orders)
-
-select	y.Quarter_Year,
-		ROUND(sum(sales),2) as total_sales
+		PRODUCT_ID,
+		sales,
+		p.NAME, 
+		CASE 
+		WHEN DATEPART(Quarter, ORDER_DATE) = 1 THEN 'Q1-' + CAST(Year(ORDER_Date) as char(4))
+		WHEN DATEPART(Quarter, ORDER_DATE) = 2 THEN 'Q2-' + CAST(Year(ORDER_Date) as char(4))
+		WHEN DATEPART(Quarter, ORDER_DATE) = 3 THEN 'Q3-' + CAST(Year(ORDER_Date) as char(4))
+		WHEN DATEPART(Quarter, ORDER_DATE) = 4 THEN 'Q4-' + CAST(Year(ORDER_Date) as char(4))
+		END AS Quarter_Year
 from Orders o
-join yearCTE y
-on y.ORDER_DATE = o.ORDER_DATE
 join Product p
-on o.PRODUCT_ID = p.ID
-where p.NAME = 'Furniture'
-group by y.Quarter_Year
-order by RIGHT(y.Quarter_Year,4), RIGHT(Left(y.Quarter_Year,2),1);
+on o.PRODUCT_ID = p.ID)
+
+select	Quarter_Year,
+		ROUND(sum(sales),2) as total_sales
+from yearCTE
+where NAME = 'Furniture'
+group by Quarter_Year
+order by RIGHT(Quarter_Year,4), RIGHT(Left(Quarter_Year,2),1);
 
 
 /*2. Write a query to analyze the impact of different discount levels on sales performance across product categories, 
@@ -56,53 +57,6 @@ select CATEGORY,
 from DiscountCTE
 group by CATEGORY, Discount_Level
 order by CATEGORY, Discount_Level
-
-SELECT 
-    p.CATEGORY,
-    d.Discount_Level,
-    COUNT(distinct o.ROW_ID) AS Total_Orders,
-    ROUND(SUM(o.PROFIT), 2) AS Total_Profit
-FROM 
-    Orders o
-JOIN 
-    Product p ON p.ID = o.PRODUCT_ID
-JOIN 
-    DiscountCTE d ON d.DISCOUNT = o.DISCOUNT
-GROUP BY 
-    p.CATEGORY, d.Discount_Level
-ORDER BY 
-    p.CATEGORY, d.Discount_Level;
-
-
-
-WITH DiscountedSales AS (
-  SELECT
-    CATEGORY,
-    DISCOUNT,
-    PROFIT,
-    CASE 
-      WHEN DISCOUNT = 0 THEN 'No Discount'
-      WHEN DISCOUNT > 0 AND DISCOUNT <= 0.2 THEN 'Low Discount'
-      WHEN DISCOUNT > 0.2 AND DISCOUNT <= 0.5 THEN 'Medium Discount'
-      ELSE 'High Discount'
-    END AS Discount_Level
-  FROM
-    ORDERS o join CUSTOMERS c on o.CUSTOMER_ID = c.ID join PRODUCT p on p.ID = o.PRODUCT_ID
-)
-SELECT
-  CATEGORY,
-  Discount_Level,
-  COUNT(*) AS Total_Orders,
-  round(SUM(PROFIT),2) AS Total_Profit
-FROM
-  DiscountedSales
-GROUP BY
-  CATEGORY,
-  Discount_Level
-ORDER BY
-  CATEGORY,
-  Discount_Level;
-
 
 
 
