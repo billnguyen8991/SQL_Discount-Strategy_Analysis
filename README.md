@@ -96,6 +96,51 @@ from DiscountCTE
 group by CATEGORY, Discount_Level
 order by CATEGORY, Discount_Level
 ```
+| Category     | Discount_Level   | Total_Orders | Total_Profit |
+|--------------|------------------|--------------|--------------|
+| Accessories  | Medium Discount   | 304          | 6647         |
+| Accessories  | No Discount       | 471          | 35289        |
+| Appliances   | High Discount     | 67           | -8630        |
+| Appliances   | Low Discount      | 16           | 1086         |
+| Appliances   | Medium Discount   | 112          | 2498         |
+| Appliances   | No Discount       | 271          | 23184        |
+| Art          | Medium Discount   | 298          | 1147         |
+| Art          | No Discount       | 498          | 5381         |
+| Binders      | High Discount     | 613          | -38510       |
+| Binders      | Medium Discount   | 573          | 29418        |
+| Binders      | No Discount       | 337          | 39314        |
+| Bookcases    | High Discount     | 15           | -3895        |
+| Bookcases    | Low Discount      | 52           | 1419         |
+| Bookcases    | Medium Discount   | 101          | -7072        |
+| Bookcases    | No Discount       | 60           | 6076         |
+| Chairs       | Low Discount      | 76           | 7111         |
+| Chairs       | Medium Discount   | 408          | -2454        |
+| Chairs       | No Discount       | 133          | 21933        |
+| Copiers      | Medium Discount   | 46           | 20062        |
+| Copiers      | No Discount       | 22           | 35556        |
+| Envelopes    | Medium Discount   | 102          | 1987         |
+| Envelopes    | No Discount       | 152          | 4977         |
+| Fasteners    | Medium Discount   | 89           | 297          |
+| Fasteners    | No Discount       | 128          | 652          |
+| Furnishings  | High Discount     | 138          | -5945        |
+| Furnishings  | Medium Discount   | 248          | 2156         |
+| Furnishings  | No Discount       | 571          | 16848        |
+| Labels       | Medium Discount   | 125          | 1124         |
+| Labels       | No Discount       | 239          | 4422         |
+| Machines     | High Discount     | 23           | -19579       |
+| Machines     | Low Discount      | 2            | 832          |
+| Machines     | Medium Discount   | 61           | -5006        |
+| Machines     | No Discount       | 29           | 27138        |
+| Paper        | Medium Discount   | 513          | 8724         |
+| Paper        | No Discount       | 857          | 25329        |
+| Phones       | Medium Discount   | 578          | 10151        |
+| Phones       | No Discount       | 311          | 34365        |
+| Storage      | Medium Discount   | 316          | -4249        |
+| Storage      | No Discount       | 530          | 25528        |
+| Supplies     | Medium Discount   | 73           | -2907        |
+| Supplies     | No Discount       | 117          | 1718         |
+| Tables       | Medium Discount   | 247          | -30582       |
+| Tables       | No Discount       | 72           | 13276        |
 
 **Question 3:**
 Write a query to determine the top-performing product categories within each customer segment based on sales and profit, 
@@ -130,6 +175,17 @@ WHERE
 ORDER BY 
     SEGMENT, CATEGORY;
 ```
+# Sales Rank and Profit Rank by Category
+
+| Segment        | Category    | Sales_Rank | Profit_Rank |
+|----------------|-------------|------------|-------------|
+| Consumer       | Copiers     | 8          | 1           |
+| Consumer       | Phones      | 2          | 2           |
+| Corporate      | Accessories  | 7          | 2           |
+| Corporate      | Copiers     | 8          | 1           |
+| Home Office    | Copiers     | 7          | 1           |
+| Home Office    | Phones      | 1          | 2           |
+
 
 **Question 4:**
 Write a query to create a report that displays each employee's performance across different product categories, 
@@ -154,7 +210,33 @@ GROUP BY
 ORDER BY 
     e.ID_EMPLOYEE ASC, Round_Total_Profit DESC;
 ```
+# Employee Sales and Profit Data
 
+| ID_EMPLOYEE | CATEGORY      | TOTAL_SALES | TOTAL_PROFIT | PROFIT_PERCENTAGE |
+|-------------|---------------|-------------|--------------|--------------------|
+| 1           | Copiers       | 9699.77     | 4360.9       | 19.25              |
+| 1           | Phones        | 21480.05    | 3262.29      | 14.4               |
+| 1           | Binders       | 10505.17    | 3212.77      | 14.18              |
+| 1           | Accessories   | 11505.6     | 2929.34      | 12.93              |
+| 1           | Paper         | 3594.96     | 1643.98      | 7.26               |
+| 1           | Chairs        | 17235.6     | 1583.09      | 6.99               |
+| 1           | Machines      | 7019.02     | 1355.86      | 5.99               |
+| 1           | Storage       | 13990.02    | 1353.85      | 5.98               |
+| 1           | Furnishings   | 6227.19     | 718.89       | 3.17               |
+| 1           | Appliances    | 6208.81     | 644.67       | 2.85               |
+| 1           | Labels        | 1289.38     | 617.49       | 2.73               |
+| 1           | Art           | 2492.78     | 599.66       | 2.65               |
+| 1           | Envelopes     | 747.34      | 339.7        | 1.5                |
+...
+...
+...
+| 9           | Copiers       | 27699.62    | 8912.88      | 21.55              |
+| 9           | Accessories   | 27200.33    | 6937.45      | 16.77              |
+| 9           | Chairs        | 61514.25    | 6338.22      | 15.32              |
+| 9           | Phones        | 45079.29    | 5671.05      | 13.71              |
+| 9           | Paper         | 11427.22    | 4996.81      | 12.08              |
+| 9           | Storage       | 34866.65    | 3321.65      | 8.03               |
+| 9           | Binders       | 20157.74    | 2463.12      | 5.95               |
 
 
 **Question 5: **
