@@ -8,9 +8,9 @@ This project aims to explore Discount Strategy of the company on a several range
 
 
 
--- Question 1: 
+**Question 1: **
 Write a SQL query to calculate the total sales of furniture products, grouped by each quarter of the year, and order the results chronologically?
-```
+````sql
 WITH YearCTE AS (
     SELECT
         ORDER_DATE,
@@ -40,10 +40,10 @@ GROUP BY
     Quarter_Year
 ORDER BY 
     RIGHT(Quarter_Year, 4), RIGHT(LEFT(Quarter_Year, 2), 1);
-```
+````
 
 
-/* **Question 2**. Write a query to analyze the impact of different discount levels on sales performance across product categories, 
+**Question 2:** Write a query to analyze the impact of different discount levels on sales performance across product categories, 
 specifically looking at the number of orders and total profit generated for each discount classification?
 
 Discount level condition:
@@ -78,9 +78,9 @@ group by CATEGORY, Discount_Level
 order by CATEGORY, Discount_Level
 ```
 
-/* **Question 3:**
+**Question 3:**
 Write a query to determine the top-performing product categories within each customer segment based on sales and profit, 
-focusing specifically on those categories that rank within the top two for profitability? */
+focusing specifically on those categories that rank within the top two for profitability?
 ```
 WITH RankedData AS (
     SELECT 
@@ -112,10 +112,10 @@ ORDER BY
     SEGMENT, CATEGORY;
 ```
 
-/* Question 4:
+**Question 4:**
 Write a query to create a report that displays each employee's performance across different product categories, 
 showing not only the total profit per category but also what percentage of their total profit each category represents, 
-with the results ordered by the percentage in descending order for each employee? */
+with the results ordered by the percentage in descending order for each employee?
 
 ```
 SELECT 
@@ -138,10 +138,10 @@ ORDER BY
 
 
 
-/* Question 5: 
+**Question 5: **
 Write a query to develop a user-defined function in SQL Server to calculate the profitability ratio for each product 
 category an employee has sold, and then apply this function to generate a report that ranks each employee's product 
-categories by their profitability ratio? */
+categories by their profitability ratio?
 
 ```
 CREATE FUNCTION dbo.CalculateProfitabilityRatio (@EmployeeID INT)
@@ -194,8 +194,7 @@ ORDER BY
 ```
 
 
-/* Question 6
-Write a query to create a report that displays the performance of orders across different discount levels.*/
+**Question 6:** Write a query to create a report that displays the performance of orders across different discount levels.
 ```
 WITH DiscountCTE AS (
     SELECT 
@@ -246,7 +245,7 @@ ORDER BY
 ```
 
 
-**Question 7:** Write a query to analyse customer pattern based on their order history
+**Question 7:** Write a query to analyse customer pattern based on their order history.
 
 ```
 with RFM_CTE as (
