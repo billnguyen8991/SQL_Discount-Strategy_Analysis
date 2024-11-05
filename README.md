@@ -40,6 +40,4 @@ GROUP BY
     Quarter_Year
 ORDER BY 
     RIGHT(Quarter_Year, 4), RIGHT(LEFT(Quarter_Year, 2), 1);
-
-
-asdasd
+```
