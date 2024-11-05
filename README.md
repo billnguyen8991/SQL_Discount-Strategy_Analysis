@@ -42,6 +42,25 @@ ORDER BY
     RIGHT(Quarter_Year, 4), RIGHT(LEFT(Quarter_Year, 2), 1);
 ````
 
+**Result:**
+| Quarter_Year | Total_Sales |
+|--------------|-------------|
+| Q1-2014      | 22656.14    |
+| Q2-2014      | 28063.75    |
+| Q3-2014      | 41957.88    |
+| Q4-2014      | 64515.09    |
+| Q1-2015      | 27374.10    |
+| Q2-2015      | 27564.83    |
+| Q3-2015      | 49586.04    |
+| Q4-2015      | 65993.28    |
+| Q1-2016      | 24349.39    |
+| Q2-2016      | 41402.50    |
+| Q3-2016      | 52814.63    |
+| Q4-2016      | 80334.92    |
+| Q1-2017      | 23723.81    |
+| Q2-2017      | 45032.10    |
+| Q3-2017      | 56283.10    |
+| Q4-2017      | 90348.25    |
 
 **Question 2:** Write a query to analyze the impact of different discount levels on sales performance across product categories, 
 specifically looking at the number of orders and total profit generated for each discount classification?
