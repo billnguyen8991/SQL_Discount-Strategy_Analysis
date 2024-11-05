@@ -15,6 +15,7 @@ Write a SQL query to calculate the total sales of furniture products, grouped by
 WITH YearCTE AS (
 
 SELECT
+
         ORDER_DATE,
         PRODUCT_ID,
         sales,
