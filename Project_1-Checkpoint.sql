@@ -1,30 +1,40 @@
--- Question 1: 
-/* Write a SQL query to calculate the total sales of furniture products, grouped by each quarter of the year, and order the results chronologically? */
+/* Question 1: 
+Write a SQL query to calculate the total sales of furniture products, grouped by each quarter of the year, and order the results chronologically? */
 
-with yearCTE as (
-select ORDER_DATE,
-		PRODUCT_ID,
-		sales,
-		p.NAME, 
-		CASE 
-		WHEN DATEPART(Quarter, ORDER_DATE) = 1 THEN 'Q1-' + CAST(Year(ORDER_Date) as char(4))
-		WHEN DATEPART(Quarter, ORDER_DATE) = 2 THEN 'Q2-' + CAST(Year(ORDER_Date) as char(4))
-		WHEN DATEPART(Quarter, ORDER_DATE) = 3 THEN 'Q3-' + CAST(Year(ORDER_Date) as char(4))
-		WHEN DATEPART(Quarter, ORDER_DATE) = 4 THEN 'Q4-' + CAST(Year(ORDER_Date) as char(4))
-		END AS Quarter_Year
-from Orders o
-join Product p
-on o.PRODUCT_ID = p.ID)
+WITH YearCTE AS (
+    SELECT 
+        ORDER_DATE,
+        PRODUCT_ID,
+        sales,
+        p.NAME, 
+        CASE 
+            WHEN DATEPART(Quarter, ORDER_DATE) = 1 THEN 'Q1-' + CAST(YEAR(ORDER_Date) AS VARCHAR(4))
+            WHEN DATEPART(Quarter, ORDER_DATE) = 2 THEN 'Q2-' + CAST(YEAR(ORDER_Date) AS VARCHAR(4))
+            WHEN DATEPART(Quarter, ORDER_DATE) = 3 THEN 'Q3-' + CAST(YEAR(ORDER_Date) AS VARCHAR(4))
+            WHEN DATEPART(Quarter, ORDER_DATE) = 4 THEN 'Q4-' + CAST(YEAR(ORDER_Date) AS VARCHAR(4))
+        END AS Quarter_Year
+    FROM 
+        Orders o
+    JOIN 
+        Product p ON o.PRODUCT_ID = p.ID
+)
 
-select	Quarter_Year,
-		ROUND(sum(sales),2) as total_sales
-from yearCTE
-where NAME = 'Furniture'
-group by Quarter_Year
-order by RIGHT(Quarter_Year,4), RIGHT(Left(Quarter_Year,2),1);
+SELECT 
+    Quarter_Year,
+    ROUND(SUM(sales), 2) AS total_sales
+FROM 
+    YearCTE
+WHERE 
+    NAME = 'Furniture'
+GROUP BY 
+    Quarter_Year
+ORDER BY 
+    RIGHT(Quarter_Year, 4), RIGHT(LEFT(Quarter_Year, 2), 1);
 
 
-/*2. Write a query to analyze the impact of different discount levels on sales performance across product categories, 
+
+/* Question 2:
+Write a query to analyze the impact of different discount levels on sales performance across product categories, 
 specifically looking at the number of orders and total profit generated for each discount classification?
 
 Discount level condition:
@@ -53,7 +63,7 @@ WITH DiscountCTE AS (
 select CATEGORY,
 		Discount_Level,
 		COUNT(*) as Total_Orders,
-		SUM(PROFIT) as Total_Profit
+		Round(SUM(PROFIT),0) as Total_Profit
 from DiscountCTE
 group by CATEGORY, Discount_Level
 order by CATEGORY, Discount_Level
@@ -179,5 +189,127 @@ LEFT JOIN
     ) pr ON e.ID_EMPLOYEE = pr.ID_EMPLOYEE AND c.CATEGORY = pr.CATEGORY
 ORDER BY 
     e.ID_EMPLOYEE, Profitability_Ratio DESC;
+
+
+/* Question 6: Create a report showing order performance by discount level.*/
+WITH DiscountCTE AS (
+    SELECT 
+        DISCOUNT,
+        CATEGORY,
+        PROFIT,
+        SALES,
+        CASE 
+            WHEN DISCOUNT = 0 THEN 'No Discount'
+            WHEN DISCOUNT <= 0.2 THEN 'Low Discount'
+            WHEN DISCOUNT <= 0.5 THEN 'Medium Discount'
+            ELSE 'High Discount'
+        END AS Discount_Level -- Define Discount Level from question 2
+    FROM 
+        Orders o
+    JOIN PRODUCT p ON o.PRODUCT_ID = p.ID
+),
+AggregatedDiscounts AS (
+    SELECT 
+        Discount_Level,
+        COUNT(*) AS Total_Orders,
+        ROUND(SUM(Sales), 0) AS Total_Sales,
+        ROUND(SUM(PROFIT), 0) AS Total_Profit,
+        AVG(DISCOUNT) AS Avg_Discount -- Calculate Average discount
+    FROM 
+        DiscountCTE
+    GROUP BY 
+        Discount_Level
+)
+
+SELECT 
+    Discount_Level,
+    Total_Orders,
+    Total_Sales,
+    Total_Profit,
+    ROUND(Total_Sales / NULLIF(Total_Orders, 0), 2) AS Sales_Per_Order,
+    ROUND(Total_Profit / NULLIF(Total_Orders, 0), 2) AS Profit_Per_Order,
+    ROUND(Avg_Discount, 2) AS Avg_Discount_Percentage
+FROM 
+    AggregatedDiscounts
+ORDER BY
+    CASE 
+        WHEN Discount_Level = 'High Discount' THEN 1
+        WHEN Discount_Level = 'Medium Discount' THEN 2
+        WHEN Discount_Level = 'Low Discount' THEN 3
+        WHEN Discount_Level = 'No Discount' THEN 4
+    END; -- Reorder Discount level
+
+
+/* Question 7 Write a query to analyse customer pattern based on their order history*/
+--select * from Orders
+
+with RFM_CTE as (
+select CUSTOMER_ID,
+		DATEDIFF(day, MAX(ORDER_DATE),'2017-12-31') as recency,
+		DATEDIFF(day, MIN(order_date),'2017-12-31')/COUNT(*) as frequency,
+		SUM(sales)/COUNT(*) as monetary
+from Orders
+group by CUSTOMER_ID)
+
+select *,
+	NTILE(5) over (order by recency) as n_tile_recency,
+	PERCENTILE_DISC(0.2) within group (order by recency) over () as percent_20_recency,
+	PERCENTILE_DISC(0.4) within group (order by recency) over () as percent_40_recency,
+	PERCENTILE_DISC(0.6) within group (order by recency) over () as percent_60_recency,
+	PERCENTILE_DISC(0.8) within group (order by recency) over () as percent_80_recency,
+
+	ntile(5) over (order by frequency) as n_tile_frequency,
+	percentile_disc(0.2) within group (order by frequency) over () as percent_20_frequency,
+	percentile_disc(0.4) within group (order by frequency) over () as percent_40_frequency,
+	percentile_disc(0.6) within group (order by frequency) over () as percent_60_frequency,
+	PERCENTILE_DISC(0.8) within group (order by frequency) over () as percent_80_frequency,
+
+	NTILE(5) over (order by monetary) as n_tile_monetary,
+	PERCENTILE_DISC(0.2) within group (order by monetary) over () as percent_20_monetary,
+	PERCENTILE_DISC(0.4) within group (order by monetary) over () as percent_40_monetary,
+	PERCENTILE_DISC(0.6) within group (order by monetary) over () as percent_60_monetary,
+	PERCENTILE_DISC(0.8) within group (order by monetary) over () as percent_80_monetary
+into RFM_RawData
+from RFM_CTE
+
+
+--select * from RFM_RawData
+
+
+WITH RFM_CalData AS (
+    SELECT 
+        Customer_ID,
+        (CASE 
+            WHEN recency <= (SELECT MAX(percent_20_recency) FROM RFM_RawData) THEN 1
+            WHEN recency <= (SELECT MAX(percent_40_recency) FROM RFM_RawData) THEN 2
+            WHEN recency <= (SELECT MAX(percent_60_recency) FROM RFM_RawData) THEN 3 
+            WHEN recency <= (SELECT MAX(percent_80_recency) FROM RFM_RawData) THEN 4 
+            ELSE 5 
+        END) AS rb,
+        
+        (CASE 
+            WHEN frequency <= (SELECT MAX(percent_20_frequency) FROM RFM_RawData) THEN 1
+            WHEN frequency <= (SELECT MAX(percent_40_frequency) FROM RFM_RawData) THEN 2
+            WHEN frequency <= (SELECT MAX(percent_60_frequency) FROM RFM_RawData) THEN 3
+            WHEN frequency <= (SELECT MAX(percent_80_frequency) FROM RFM_RawData) THEN 4
+            ELSE 5 
+        END) AS fb, 
+        
+        (CASE 
+            WHEN monetary <= (SELECT MAX(percent_20_monetary) FROM RFM_RawData) THEN 1
+            WHEN monetary <= (SELECT MAX(percent_40_monetary) FROM RFM_RawData) THEN 2
+            WHEN monetary <= (SELECT MAX(percent_60_monetary) FROM RFM_RawData) THEN 3
+            WHEN monetary <= (SELECT MAX(percent_80_monetary) FROM RFM_RawData) THEN 4
+            ELSE 5 
+        END) AS mb
+    FROM RFM_RawData
+)
+
+SELECT 
+    rb * 100 + fb * 10 + mb AS rfm,  -- Calculate the RFM score
+    COUNT(Customer_ID) AS Customer_Count  -- Count of customers for each RFM score
+FROM RFM_CalData
+GROUP BY rb * 100 + fb * 10 + mb  -- Group by the calculated RFM score
+ORDER BY rfm;  -- Order by the RFM score
 
 
