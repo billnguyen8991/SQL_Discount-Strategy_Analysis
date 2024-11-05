@@ -112,22 +112,9 @@ order by CATEGORY, Discount_Level
 | Bookcases    | High Discount     | 15           | -3895        |
 | Bookcases    | Low Discount      | 52           | 1419         |
 | Bookcases    | Medium Discount   | 101          | -7072        |
-| Bookcases    | No Discount       | 60           | 6076         |
-| Chairs       | Low Discount      | 76           | 7111         |
-| Chairs       | Medium Discount   | 408          | -2454        |
-| Chairs       | No Discount       | 133          | 21933        |
-| Copiers      | Medium Discount   | 46           | 20062        |
-| Copiers      | No Discount       | 22           | 35556        |
-| Envelopes    | Medium Discount   | 102          | 1987         |
-| Envelopes    | No Discount       | 152          | 4977         |
-| Fasteners    | Medium Discount   | 89           | 297          |
-| Fasteners    | No Discount       | 128          | 652          |
-| Furnishings  | High Discount     | 138          | -5945        |
-| Furnishings  | Medium Discount   | 248          | 2156         |
-| Furnishings  | No Discount       | 571          | 16848        |
-| Labels       | Medium Discount   | 125          | 1124         |
-| Labels       | No Discount       | 239          | 4422         |
-| Machines     | High Discount     | 23           | -19579       |
+...
+...
+...
 | Machines     | Low Discount      | 2            | 832          |
 | Machines     | Medium Discount   | 61           | -5006        |
 | Machines     | No Discount       | 29           | 27138        |
@@ -210,7 +197,7 @@ GROUP BY
 ORDER BY 
     e.ID_EMPLOYEE ASC, Round_Total_Profit DESC;
 ```
-# Employee Sales and Profit Data
+**Result:**
 
 | ID_EMPLOYEE | CATEGORY      | TOTAL_SALES | TOTAL_PROFIT | PROFIT_PERCENTAGE |
 |-------------|---------------|-------------|--------------|--------------------|
