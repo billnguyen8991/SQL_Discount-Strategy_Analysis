@@ -5,6 +5,9 @@ Office Sales Data Analysis
 This project aims to explore Discount Strategy of the company on a several range of office products to understand employees performance and products, sales trend of different products on different level of discount so that the organisation can improve and optimise their strategy.
 
 **Task**
+
+
+
 -- Question 1: 
 
 Write a SQL query to calculate the total sales of furniture products, grouped by each quarter of the year, and order the results chronologically?
