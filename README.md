@@ -13,10 +13,8 @@ This project aims to explore Discount Strategy of the company on a several range
 Write a SQL query to calculate the total sales of furniture products, grouped by each quarter of the year, and order the results chronologically?
 
 WITH YearCTE AS (
-SELECT 
-
+SELECT
         ORDER_DATE,
-        
         PRODUCT_ID,
         sales,
         p.NAME, 
