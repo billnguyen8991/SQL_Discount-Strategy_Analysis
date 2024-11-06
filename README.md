@@ -1,4 +1,4 @@
-**Office Sales Data Analysis**
+**<h1 align="center"> Office Sales Data Analysis </h1>**
 
 **Purpose**
 
@@ -6,9 +6,7 @@ This project aims to explore Discount Strategy of the company on a several range
 
 **Task**
 
-
-
-**Question 1: **
+**Question 1:**
 Write a SQL query to calculate the total sales of furniture products, grouped by each quarter of the year, and order the results chronologically?
 ````sql
 WITH YearCTE AS (
@@ -41,7 +39,7 @@ GROUP BY
 ORDER BY 
     RIGHT(Quarter_Year, 4), RIGHT(LEFT(Quarter_Year, 2), 1);
 ````
-
+\
 **Result:**
 | Quarter_Year | Total_Sales |
 |--------------|-------------|
@@ -61,6 +59,7 @@ ORDER BY
 | Q2-2017      | 45032.10    |
 | Q3-2017      | 56283.10    |
 | Q4-2017      | 90348.25    |
+\
 
 **Question 2:** Write a query to analyze the impact of different discount levels on sales performance across product categories, 
 specifically looking at the number of orders and total profit generated for each discount classification?
@@ -97,7 +96,7 @@ from DiscountCTE
 group by CATEGORY, Discount_Level
 order by CATEGORY, Discount_Level
 ````
-
+**Result:**
 | Category     | Discount_Level   | Total_Orders | Total_Profit |
 |--------------|------------------|--------------|--------------|
 | Accessories  | Medium Discount   | 304          | 6647         |
@@ -107,34 +106,26 @@ order by CATEGORY, Discount_Level
 | Appliances   | Medium Discount   | 112          | 2498         |
 | Appliances   | No Discount       | 271          | 23184        |
 | Art          | Medium Discount   | 298          | 1147         |
-| Art          | No Discount       | 498          | 5381         |
-| Binders      | High Discount     | 613          | -38510       |
-| Binders      | Medium Discount   | 573          | 29418        |
 | Binders      | No Discount       | 337          | 39314        |
 | Bookcases    | High Discount     | 15           | -3895        |
 | Bookcases    | Low Discount      | 52           | 1419         |
-| Bookcases    | Medium Discount   | 101          | -7072        |
 ...
 ...
 ...
 | Machines     | Low Discount      | 2            | 832          |
 | Machines     | Medium Discount   | 61           | -5006        |
-| Machines     | No Discount       | 29           | 27138        |
-| Paper        | Medium Discount   | 513          | 8724         |
-| Paper        | No Discount       | 857          | 25329        |
-| Phones       | Medium Discount   | 578          | 10151        |
 | Phones       | No Discount       | 311          | 34365        |
-| Storage      | Medium Discount   | 316          | -4249        |
 | Storage      | No Discount       | 530          | 25528        |
 | Supplies     | Medium Discount   | 73           | -2907        |
 | Supplies     | No Discount       | 117          | 1718         |
 | Tables       | Medium Discount   | 247          | -30582       |
 | Tables       | No Discount       | 72           | 13276        |
 
+\
 **Question 3:**
 Write a query to determine the top-performing product categories within each customer segment based on sales and profit, 
 focusing specifically on those categories that rank within the top two for profitability?
-```
+````sql
 WITH RankedData AS (
     SELECT 
         c.SEGMENT,
@@ -163,8 +154,10 @@ WHERE
     Profit_Rank <= 2
 ORDER BY 
     SEGMENT, CATEGORY;
-```
-# Sales Rank and Profit Rank by Category
+````
+
+**Result:**
+
 
 | Segment        | Category    | Sales_Rank | Profit_Rank |
 |----------------|-------------|------------|-------------|
@@ -233,7 +226,7 @@ Write a query to develop a user-defined function in SQL Server to calculate the 
 category an employee has sold, and then apply this function to generate a report that ranks each employee's product 
 categories by their profitability ratio?
 
-```
+````sql
 CREATE FUNCTION dbo.CalculateProfitabilityRatio (@EmployeeID INT)
 RETURNS TABLE
 AS
@@ -281,11 +274,11 @@ LEFT JOIN
     ) pr ON e.ID_EMPLOYEE = pr.ID_EMPLOYEE AND c.CATEGORY = pr.CATEGORY
 ORDER BY 
     e.ID_EMPLOYEE, Profitability_Ratio DESC;
-```
+````
 
 
 **Question 6:** Write a query to create a report that displays the performance of orders across different discount levels.
-```
+````sql
 WITH DiscountCTE AS (
     SELECT 
         DISCOUNT,
@@ -332,12 +325,12 @@ ORDER BY
         WHEN Discount_Level = 'Low Discount' THEN 3
         WHEN Discount_Level = 'No Discount' THEN 4
     END;
-```
+````
 
 
 **Question 7:** Write a query to analyse customer pattern based on their order history.
 
-```
+````sql
 with RFM_CTE as (
 select CUSTOMER_ID,
 		DATEDIFF(day, MAX(ORDER_DATE),'2017-12-31') as recency,
@@ -406,4 +399,4 @@ SELECT
 FROM RFM_CalData
 GROUP BY rb * 100 + fb * 10 + mb  -- Group by the calculated RFM score
 ORDER BY rfm;  -- Order by the RFM score
-```
+````
