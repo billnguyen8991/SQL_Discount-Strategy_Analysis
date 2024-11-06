@@ -222,7 +222,7 @@ ORDER BY
 | 9           | Binders       | 20157.74    | 2463.12      | 5.95               |
 
 
-**Question 5: **
+**Question 5:**
 Write a query to develop a user-defined function in SQL Server to calculate the profitability ratio for each product 
 category an employee has sold, and then apply this function to generate a report that ranks each employee's product 
 categories by their profitability ratio?
