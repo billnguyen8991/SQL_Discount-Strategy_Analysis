@@ -39,7 +39,6 @@ GROUP BY
 ORDER BY 
     RIGHT(Quarter_Year, 4), RIGHT(LEFT(Quarter_Year, 2), 1);
 ````
-\
 
 **Result:**
 | Quarter_Year | Total_Sales |
