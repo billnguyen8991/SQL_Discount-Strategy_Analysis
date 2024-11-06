@@ -121,7 +121,7 @@ SELECT
     e.ID_EMPLOYEE,
     p.CATEGORY,
 	Round(sum(o.SALES),2) as Total_Sales,
-    ROUND(SUM(o.PROFIT), 2) AS Round_Total_Profit,
+    ROUND(SUM(o.PROFIT), 2) AS Total_Profit,
     ROUND((SUM(o.PROFIT) / SUM(SUM(o.PROFIT)) OVER (PARTITION BY e.ID_Employee)) * 100, 2) AS Profit_Percentage
 FROM 
     Employees e
@@ -192,53 +192,49 @@ ORDER BY
 
 
 /* Question 6: Create a report showing order performance by discount level.*/
-WITH DiscountCTE AS (
+
+WITH AggregatedDiscounts AS (
     SELECT 
-        DISCOUNT,
-        CATEGORY,
-        PROFIT,
-        SALES,
         CASE 
             WHEN DISCOUNT = 0 THEN 'No Discount'
             WHEN DISCOUNT <= 0.2 THEN 'Low Discount'
             WHEN DISCOUNT <= 0.5 THEN 'Medium Discount'
             ELSE 'High Discount'
-        END AS Discount_Level -- Define Discount Level from question 2
+        END AS Discount_Level,  -- Directly calculate Discount Level here
+        COUNT(*) AS Total_Orders,
+        SUM(SALES) AS Total_Sales,
+        SUM(PROFIT) AS Total_Profit,
+        AVG(DISCOUNT) AS Avg_Discount -- Directly aggregate values
     FROM 
         Orders o
-    JOIN PRODUCT p ON o.PRODUCT_ID = p.ID
-),
-AggregatedDiscounts AS (
-    SELECT 
-        Discount_Level,
-        COUNT(*) AS Total_Orders,
-        ROUND(SUM(Sales), 0) AS Total_Sales,
-        ROUND(SUM(PROFIT), 0) AS Total_Profit,
-        AVG(DISCOUNT) AS Avg_Discount -- Calculate Average discount
-    FROM 
-        DiscountCTE
+    JOIN 
+        PRODUCT p ON o.PRODUCT_ID = p.ID
     GROUP BY 
-        Discount_Level
+        CASE 
+            WHEN DISCOUNT = 0 THEN 'No Discount'
+            WHEN DISCOUNT <= 0.2 THEN 'Low Discount'
+            WHEN DISCOUNT <= 0.5 THEN 'Medium Discount'
+            ELSE 'High Discount'
+        END
 )
 
 SELECT 
     Discount_Level,
     Total_Orders,
-    Total_Sales,
-    Total_Profit,
+    ROUND(Total_Sales, 0) AS Total_Sales,
+    ROUND(Total_Profit, 0) AS Total_Profit,
     ROUND(Total_Sales / NULLIF(Total_Orders, 0), 2) AS Sales_Per_Order,
     ROUND(Total_Profit / NULLIF(Total_Orders, 0), 2) AS Profit_Per_Order,
     ROUND(Avg_Discount, 2) AS Avg_Discount_Percentage
 FROM 
     AggregatedDiscounts
-ORDER BY
+ORDER BY 
     CASE 
         WHEN Discount_Level = 'High Discount' THEN 1
         WHEN Discount_Level = 'Medium Discount' THEN 2
         WHEN Discount_Level = 'Low Discount' THEN 3
         WHEN Discount_Level = 'No Discount' THEN 4
-    END; -- Reorder Discount level
-
+    END;  -- Order by Discount Level directly
 
 /* Question 7 Write a query to analyse customer pattern based on their order history*/
 --select * from Orders
