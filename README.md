@@ -65,14 +65,15 @@ ORDER BY
 **Question 2:** Write a query to analyze the impact of different discount levels on sales performance across product categories, 
 specifically looking at the number of orders and total profit generated for each discount classification?
 
-Discount level condition:
-No Discount = 0
-0 < Low Discount < 0.2
-0.2 < Medium Discount < 0.5
-High Discount > 0.5  */
+Discount level condition:\
+No Discount = 0\
+0 < Low Discount < 0.2\
+0.2 < Medium Discount < 0.5\
+High Discount > 0.5 
 
 
-```WITH DiscountCTE AS (
+````sql
+WITH DiscountCTE AS (
     SELECT 
         DISCOUNT,
 		CATEGORY,
@@ -95,7 +96,8 @@ select CATEGORY,
 from DiscountCTE
 group by CATEGORY, Discount_Level
 order by CATEGORY, Discount_Level
-```
+````
+
 | Category     | Discount_Level   | Total_Orders | Total_Profit |
 |--------------|------------------|--------------|--------------|
 | Accessories  | Medium Discount   | 304          | 6647         |
