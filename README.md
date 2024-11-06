@@ -106,10 +106,6 @@ order by CATEGORY, Discount_Level
 | Appliances   | Low Discount      | 16           | 1086         |
 | Appliances   | Medium Discount   | 112          | 2498         |
 | Appliances   | No Discount       | 271          | 23184        |
-| Art          | Medium Discount   | 298          | 1147         |
-| Binders      | No Discount       | 337          | 39314        |
-| Bookcases    | High Discount     | 15           | -3895        |
-| Bookcases    | Low Discount      | 52           | 1419         |
 ...
 ...
 ...
@@ -202,13 +198,6 @@ ORDER BY
 | 1           | Binders       | 10505.17    | 3212.77      | 14.18              |
 | 1           | Accessories   | 11505.6     | 2929.34      | 12.93              |
 | 1           | Paper         | 3594.96     | 1643.98      | 7.26               |
-| 1           | Chairs        | 17235.6     | 1583.09      | 6.99               |
-| 1           | Machines      | 7019.02     | 1355.86      | 5.99               |
-| 1           | Storage       | 13990.02    | 1353.85      | 5.98               |
-| 1           | Furnishings   | 6227.19     | 718.89       | 3.17               |
-| 1           | Appliances    | 6208.81     | 644.67       | 2.85               |
-| 1           | Labels        | 1289.38     | 617.49       | 2.73               |
-| 1           | Art           | 2492.78     | 599.66       | 2.65               |
 | 1           | Envelopes     | 747.34      | 339.7        | 1.5                |
 ...
 ...
@@ -277,57 +266,81 @@ ORDER BY
     e.ID_EMPLOYEE, Profitability_Ratio DESC;
 ````
 
+**Result:**
+
+| Employee ID | Category    | Total Sales | Total Profit | Profitability Ratio |
+|-------------|-------------|-------------|--------------|---------------------|
+| 1           | Labels      | 1289.38     | 617.49       | 0.48                |
+| 1           | Paper       | 3594.96     | 1643.98      | 0.46                |
+| 1           | Envelopes   | 747.34      | 339.7        | 0.45                |
+| 1           | Copiers     | 9699.77     | 4360.9       | 0.45                |
+| 1           | Fasteners   | 164.55      | 62.42        | 0.38                |
+| 1           | Binders     | 10505.17    | 3212.77      | 0.31                |
+| 1           | Accessories | 11505.6     | 2929.34      | 0.25                |
+...
+| 8           | Chairs       | 60808.64    | 4188.40      | 0.07                |
+| 8           | Binders      | 42225.52    | 1016.88      | 0.02                |
+| 8           | Supplies     | 8501.11     | 5.03         | 0                   |
+| 8           | Bookcases    | 19329.13    | -1545.43     | -0.08               |
+| 9           | Chairs       | 61514.25    | 6338.22      | 0.10                |
+| 9           | Machines     | 31060.70    | 147.76       | 0                   |
+| 9           | Tables       | 34634.10    | -2155.57     | -0.06               |
+| 9           | Bookcases    | 14477.13    | -963.15      | -0.07               |
+| 9           | Supplies     | 5040.55     | -695.37      | -0.14               |
+
 
 **Question 6:** Write a query to create a report that displays the performance of orders across different discount levels.
 ````sql
-WITH DiscountCTE AS (
+WITH AggregatedDiscounts AS (
     SELECT 
-        DISCOUNT,
-        CATEGORY,
-        PROFIT,
-        SALES,
         CASE 
             WHEN DISCOUNT = 0 THEN 'No Discount'
             WHEN DISCOUNT <= 0.2 THEN 'Low Discount'
             WHEN DISCOUNT <= 0.5 THEN 'Medium Discount'
             ELSE 'High Discount'
-        END AS Discount_Level -- Define Discount Level from question 2
+        END AS Discount_Level,
+        COUNT(*) AS Total_Orders,
+        SUM(SALES) AS Total_Sales,
+        SUM(PROFIT) AS Total_Profit,
+        AVG(DISCOUNT) AS Avg_Discount
     FROM 
         Orders o
-    JOIN PRODUCT p ON o.PRODUCT_ID = p.ID
-),
-AggregatedDiscounts AS (
-    SELECT 
-        Discount_Level,
-        COUNT(*) AS Total_Orders,
-        ROUND(SUM(Sales), 0) AS Total_Sales,
-        ROUND(SUM(PROFIT), 0) AS Total_Profit,
-        AVG(DISCOUNT) AS Avg_Discount -- Calculate Average discount
-    FROM 
-        DiscountCTE
+    JOIN 
+        PRODUCT p ON o.PRODUCT_ID = p.ID
     GROUP BY 
-        Discount_Level
+        CASE 
+            WHEN DISCOUNT = 0 THEN 'No Discount'
+            WHEN DISCOUNT <= 0.2 THEN 'Low Discount'
+            WHEN DISCOUNT <= 0.5 THEN 'Medium Discount'
+            ELSE 'High Discount'
+        END
 )
 
 SELECT 
     Discount_Level,
     Total_Orders,
-    Total_Sales,
-    Total_Profit,
+    ROUND(Total_Sales, 0) AS Total_Sales,
+    ROUND(Total_Profit, 0) AS Total_Profit,
     ROUND(Total_Sales / NULLIF(Total_Orders, 0), 2) AS Sales_Per_Order,
     ROUND(Total_Profit / NULLIF(Total_Orders, 0), 2) AS Profit_Per_Order,
     ROUND(Avg_Discount, 2) AS Avg_Discount_Percentage
 FROM 
     AggregatedDiscounts
-ORDER BY
+ORDER BY 
     CASE 
         WHEN Discount_Level = 'High Discount' THEN 1
         WHEN Discount_Level = 'Medium Discount' THEN 2
         WHEN Discount_Level = 'Low Discount' THEN 3
         WHEN Discount_Level = 'No Discount' THEN 4
-    END;
+    END;  -- Order by Discount Level
 ````
-
+**Result:**
+| Discount Level  | Total Orders | Total Sales | Total Profit | Sales Per Order | Profit Per Order | Avg Discount Percentage |
+|-----------------|--------------|-------------|--------------|-----------------|------------------|-------------------------|
+| High Discount   | 856          | 64,229      | -76,559      | 75.03           | -89.44           | 0.72                    |
+| Medium Discount | 4,194        | 1,063,136   | 31,940       | 253.49          | 7.62             | 0.22                    |
+| Low Discount    | 146          | 81,928      | 10,448       | 561.15          | 71.56            | 0.12                    |
+| No Discount     | 4,798        | 1,087,908   | 320,988      | 226.74          | 66.9             | 0                       |
 
 **Question 7:** Write a query to analyse customer pattern based on their order history.
 
@@ -361,8 +374,6 @@ select *,
 into RFM_RawData
 from RFM_CTE
 
-
---select * from RFM_RawData
 
 
 WITH RFM_CalData AS (
@@ -401,3 +412,20 @@ FROM RFM_CalData
 GROUP BY rb * 100 + fb * 10 + mb  -- Group by the calculated RFM score
 ORDER BY rfm;  -- Order by the RFM score
 ````
+**Results:**
+| ID   | Value |
+|------|-------|
+| 111  | 6     |
+| 112  | 14    |
+| 113  | 9     |
+| 114  | 13    |
+| 115  | 8     |
+| 121  | 6     |
+...
+| 544  | 10    |
+| 545  | 5     |
+| 551  | 29    |
+| 552  | 12    |
+| 553  | 9     |
+| 554  | 6     |
+| 555  | 13    |
