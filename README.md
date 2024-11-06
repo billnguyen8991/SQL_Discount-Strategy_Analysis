@@ -40,6 +40,7 @@ ORDER BY
     RIGHT(Quarter_Year, 4), RIGHT(LEFT(Quarter_Year, 2), 1);
 ````
 \
+
 **Result:**
 | Quarter_Year | Total_Sales |
 |--------------|-------------|
@@ -59,7 +60,8 @@ ORDER BY
 | Q2-2017      | 45032.10    |
 | Q3-2017      | 56283.10    |
 | Q4-2017      | 90348.25    |
-\
+
+
 
 **Question 2:** Write a query to analyze the impact of different discount levels on sales performance across product categories, 
 specifically looking at the number of orders and total profit generated for each discount classification?
@@ -121,7 +123,7 @@ order by CATEGORY, Discount_Level
 | Tables       | Medium Discount   | 247          | -30582       |
 | Tables       | No Discount       | 72           | 13276        |
 
-\
+
 **Question 3:**
 Write a query to determine the top-performing product categories within each customer segment based on sales and profit, 
 focusing specifically on those categories that rank within the top two for profitability?
