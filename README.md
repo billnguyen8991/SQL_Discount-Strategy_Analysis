@@ -171,7 +171,7 @@ Write a query to create a report that displays each employee's performance acros
 showing not only the total profit per category but also what percentage of their total profit each category represents, 
 with the results ordered by the percentage in descending order for each employee?
 
-```
+````sql
 SELECT 
     e.ID_EMPLOYEE,
     p.CATEGORY,
@@ -188,7 +188,7 @@ GROUP BY
     e.ID_EMPLOYEE, p.CATEGORY
 ORDER BY 
     e.ID_EMPLOYEE ASC, Round_Total_Profit DESC;
-```
+````
 **Result:**
 
 | ID_EMPLOYEE | CATEGORY      | TOTAL_SALES | TOTAL_PROFIT | PROFIT_PERCENTAGE |
