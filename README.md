@@ -145,74 +145,7 @@ High Discount > 0.5
 
 **Requirement 7:** Write a query to analyse customer pattern based on their order history.
 
-````sql
-with RFM_CTE as (
-select CUSTOMER_ID,
-		DATEDIFF(day, MAX(ORDER_DATE),'2017-12-31') as recency,
-		DATEDIFF(day, MIN(order_date),'2017-12-31')/COUNT(*) as frequency,
-		SUM(sales)/COUNT(*) as monetary
-from Orders
-group by CUSTOMER_ID)
 
-select *,
-	NTILE(5) over (order by recency) as n_tile_recency,
-	PERCENTILE_DISC(0.2) within group (order by recency) over () as percent_20_recency,
-	PERCENTILE_DISC(0.4) within group (order by recency) over () as percent_40_recency,
-	PERCENTILE_DISC(0.6) within group (order by recency) over () as percent_60_recency,
-	PERCENTILE_DISC(0.8) within group (order by recency) over () as percent_80_recency,
-
-	ntile(5) over (order by frequency) as n_tile_frequency,
-	percentile_disc(0.2) within group (order by frequency) over () as percent_20_frequency,
-	percentile_disc(0.4) within group (order by frequency) over () as percent_40_frequency,
-	percentile_disc(0.6) within group (order by frequency) over () as percent_60_frequency,
-	PERCENTILE_DISC(0.8) within group (order by frequency) over () as percent_80_frequency,
-
-	NTILE(5) over (order by monetary) as n_tile_monetary,
-	PERCENTILE_DISC(0.2) within group (order by monetary) over () as percent_20_monetary,
-	PERCENTILE_DISC(0.4) within group (order by monetary) over () as percent_40_monetary,
-	PERCENTILE_DISC(0.6) within group (order by monetary) over () as percent_60_monetary,
-	PERCENTILE_DISC(0.8) within group (order by monetary) over () as percent_80_monetary
-into RFM_RawData
-from RFM_CTE
-
-
-
-WITH RFM_CalData AS (
-    SELECT 
-        Customer_ID,
-        (CASE 
-            WHEN recency <= (SELECT MAX(percent_20_recency) FROM RFM_RawData) THEN 1
-            WHEN recency <= (SELECT MAX(percent_40_recency) FROM RFM_RawData) THEN 2
-            WHEN recency <= (SELECT MAX(percent_60_recency) FROM RFM_RawData) THEN 3 
-            WHEN recency <= (SELECT MAX(percent_80_recency) FROM RFM_RawData) THEN 4 
-            ELSE 5 
-        END) AS rb,
-        
-        (CASE 
-            WHEN frequency <= (SELECT MAX(percent_20_frequency) FROM RFM_RawData) THEN 1
-            WHEN frequency <= (SELECT MAX(percent_40_frequency) FROM RFM_RawData) THEN 2
-            WHEN frequency <= (SELECT MAX(percent_60_frequency) FROM RFM_RawData) THEN 3
-            WHEN frequency <= (SELECT MAX(percent_80_frequency) FROM RFM_RawData) THEN 4
-            ELSE 5 
-        END) AS fb, 
-        
-        (CASE 
-            WHEN monetary <= (SELECT MAX(percent_20_monetary) FROM RFM_RawData) THEN 1
-            WHEN monetary <= (SELECT MAX(percent_40_monetary) FROM RFM_RawData) THEN 2
-            WHEN monetary <= (SELECT MAX(percent_60_monetary) FROM RFM_RawData) THEN 3
-            WHEN monetary <= (SELECT MAX(percent_80_monetary) FROM RFM_RawData) THEN 4
-            ELSE 5 
-        END) AS mb
-    FROM RFM_RawData
-)
-
-SELECT 
-    rb * 100 + fb * 10 + mb AS rfm,  -- Calculate the RFM score
-    COUNT(Customer_ID) AS Customer_Count  -- Count of customers for each RFM score
-FROM RFM_CalData
-GROUP BY rb * 100 + fb * 10 + mb  -- Group by the calculated RFM score
-ORDER BY rfm;  -- Order by the RFM score
-````
 **Results:**
 | ID   | Value |
 |------|-------|
@@ -230,3 +163,6 @@ ORDER BY rfm;  -- Order by the RFM score
 | 553  | 9     |
 | 554  | 6     |
 | 555  | 13    |
+
+
+**<h1 align="center"> Suggestion </h1>**
