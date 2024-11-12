@@ -6,7 +6,7 @@ This project aims to explore Discount Strategy of the company on a several range
 
 **Task**
 
-**Requirement 1:** Analyze the sales trend of furniture products based on quarterly performance.
+**<h2>Requirement 1:</h2>** Analyze the sales trend of furniture products based on quarterly performance.
 
 **Overall Sales by Year**
 | Order_Year | Total_Sales | Total_Quantity |
@@ -36,9 +36,9 @@ This project aims to explore Discount Strategy of the company on a several range
 | Q3-2017      | 56283.10    |
 | Q4-2017      | 90348.25    |
 
+**Insight:**
 
-
-**Requirement 2:** Analyze the impact of different discount levels on sales performance across product categories followed the defined discount level.
+**<h2> Requirement 2:</h2>** Analyze the impact of different discount levels on sales performance across product categories followed the defined discount level.
 
 Discount level condition:\
 No Discount = 0\
