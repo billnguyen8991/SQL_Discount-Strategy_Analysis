@@ -17,22 +17,31 @@ This project aims to explore Discount Strategy of the company on a several range
 | 2017       | 733,215.25  | 12,476         |
 
 **Overall Sales by Quarter**
-| Order_Year | Product_Name   | Total_Sales | Total_Profit | Profit_Ratio | Total_Quantity |
-|-------------|----------------|-------------|--------------|--------------|----------------|
-| 2014        | Furniture      | 157,192.85  | 5,457.73     | 0.03         | 1,623          |
-| 2015        | Furniture      | 170,518.24  | 3,015.20     | 0.02         | 1,775          |
-| 2016        | Furniture      | 198,901.44  | 6,959.95     | 0.03         | 2,193          |
-| 2017        | Furniture      | 215,387.27  | 3,438.39     | 0.02         | 2,437          |
-| 2014        | Office Supplies| 151,776.41  | 22,593.42    | 0.15         | 4,569          |
-| 2015        | Office Supplies| 137,233.46  | 25,099.53    | 0.18         | 4,715          |
-| 2016        | Office Supplies| 183,939.98  | 35,061.23    | 0.19         | 5,946          |
-| 2017        | Office Supplies| 246,097.17  | 39,736.62    | 0.16         | 7,676          |
-| 2014        | Technology     | 175,278.23  | 21,492.83    | 0.12         | 1,389          |
-| 2015        | Technology     | 162,780.81  | 33,503.87    | 0.21         | 1,489          |
-| 2016        | Technology     | 226,364.18  | 39,773.99    | 0.18         | 1,698          |
-| 2017        | Technology     | 271,730.81  | 50,684.26    | 0.19         | 2,363          |
+| Order Year | Product Name     | Total Profit | Profit Percentage |
+|------------|------------------|--------------|--------------------|
+| 2014       | Furniture        | 5457.73      | 11.02             |
+| 2014       | Office Supplies  | 22593.42     | 45.6              |
+| 2014       | Technology       | 21492.83     | 43.38             |
+| 2015       | Furniture        | 3015.2       | 4.89              |
+| 2015       | Office Supplies  | 25099.53     | 40.73             |
+| 2015       | Technology       | 33503.87     | 54.37             |
+| 2016       | Furniture        | 6959.95      | 8.51              |
+| 2016       | Office Supplies  | 35061.23     | 42.86             |
+| 2016       | Technology       | 39773.99     | 48.63             |
+| 2017       | Furniture        | 3438.39      | 3.66              |
+| 2017       | Office Supplies  | 39736.62     | 42.34             |
+| 2017       | Technology       | 50684.26     | 54                |
+
 
 **Insight:**
+In general, revenue is increasing over the year for all kind of product except for Furniture.
+Technology and Office Supply are the most profitable, they take around half of profit in 2017. Furniture consistently has the lowest profit percentage across all years, with a notable dip in 2017 at only 3.66%. This may indicate that while Furniture contributes to sales volume, it has lower profitability, potentially due to higher costs or lower margins.
+
+Recommend
+**Focus on Technology and Office Supplies** as they bring the highest profit contribution.
+Evaluate the Furniture category to determine if cost reductions or pricing adjustments could improve profitability.
+**Monitor Technology trends** to ensure the category continues to grow or maintain high profitability.
+
 
 **<h2> Requirement 2:</h2>** Analyze the impact of different discount levels on sales performance across product categories followed the defined discount level.
 
