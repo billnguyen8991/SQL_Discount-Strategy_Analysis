@@ -16,21 +16,22 @@ This project aims to explore Discount Strategy of the company on a several range
 | 2016       | 609,205.60  | 9,837          |
 | 2017       | 733,215.25  | 12,476         |
 
-**Overall Sales by Quarter**
+Annual Product Profit and Profit Percentage
 | Order Year | Product Name     | Total Profit | Profit Percentage |
 |------------|------------------|--------------|--------------------|
-| 2014       | Furniture        | 5457.73      | 11.02             |
+| 2017       | Technology       | 50684.26     | 54                |
+| 2016       | Technology       | 39773.99     | 48.63             |
+| 2017       | Office Supplies  | 39736.62     | 42.34             |
+| 2016       | Office Supplies  | 35061.23     | 42.86             |
+| 2015       | Technology       | 33503.87     | 54.37             |
+| 2015       | Office Supplies  | 25099.53     | 40.73             |
 | 2014       | Office Supplies  | 22593.42     | 45.6              |
 | 2014       | Technology       | 21492.83     | 43.38             |
-| 2015       | Furniture        | 3015.2       | 4.89              |
-| 2015       | Office Supplies  | 25099.53     | 40.73             |
-| 2015       | Technology       | 33503.87     | 54.37             |
 | 2016       | Furniture        | 6959.95      | 8.51              |
-| 2016       | Office Supplies  | 35061.23     | 42.86             |
-| 2016       | Technology       | 39773.99     | 48.63             |
+| 2014       | Furniture        | 5457.73      | 11.02             |
 | 2017       | Furniture        | 3438.39      | 3.66              |
-| 2017       | Office Supplies  | 39736.62     | 42.34             |
-| 2017       | Technology       | 50684.26     | 54                |
+| 2015       | Furniture        | 3015.2       | 4.89              |
+
 
 
 **Insight:**
