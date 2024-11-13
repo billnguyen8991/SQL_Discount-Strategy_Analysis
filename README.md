@@ -16,7 +16,7 @@ This project aims to explore Discount Strategy of the company on a several range
 | 2016       | 609,205.60  | 9,837          |
 | 2017       | 733,215.25  | 12,476         |
 
-Annual Product Profit and Profit Percentage
+### Annual Product Profit and Profit Percentage
 | Order Year | Product Name     | Total Profit | Profit Percentage |
 |------------|------------------|--------------|--------------------|
 | 2017       | Technology       | 50684.26     | 54                |
@@ -32,7 +32,14 @@ Annual Product Profit and Profit Percentage
 | 2017       | Furniture        | 3438.39      | 3.66              |
 | 2015       | Furniture        | 3015.2       | 4.89              |
 
+### Sales and Profit of Furniture Product
 
+| Order Year | Total Sales | Total Profit | Profit Percentage |
+|------------|-------------|--------------|--------------------|
+| 2017       | 215387.27   | 3438.39      | 3.66               |
+| 2016       | 198901.44   | 6959.95      | 8.51               |
+| 2015       | 170518.24   | 3015.2       | 4.89               |
+| 2014       | 157192.85   | 5457.73      | 11.02              |
 
 **Insight:**
 In general, revenue is increasing over the year for all kind of product except for Furniture.
