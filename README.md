@@ -1,4 +1,4 @@
-**<h1 align="center"> Discount Strategy Analysis </h1>**
+**<h1 align="center"> Office Sales Strategy Analysis </h1>**
 
 **Purpose**
 
